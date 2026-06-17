@@ -1,7 +1,7 @@
 module alu_control (
     input wire [1:0] alu_operation,
     input wire [2:0] funct3,
-    input wire       funct7_30b,
+    input wire       funct7_30b, // Bit 30 in funct7
     output reg [3:0] alu_control_out,
 );
 
