@@ -1,8 +1,8 @@
 module alu_control (
-    input wire [1:0] alu_operation,
-    input wire [2:0] funct3,
+    input wire [1:0] alu_operation, // Operation type Identifier
+    input wire [2:0] funct3, // Opcode
     input wire       funct7_30b, // Bit 30 in funct7
-    output reg [3:0] alu_control_out,
+    output reg [3:0] alu_control_out, // ALU Control 
 );
 
 always @(*) begin

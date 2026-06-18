@@ -7,7 +7,6 @@ module register (
     input wire[31:0] data_in,
     output wire[31:0] data_1,
     output wire[31:0] data_2,
-
 );
 
 reg [31:0] registers [0:31]; // Create register array
