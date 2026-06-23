@@ -4,7 +4,7 @@ module d_memory (
     input wire memory_read,
     input wire[31:0] address,
     input wire[31:0] data_write,
-    input wire[31:0] data_read,
+    output wire[31:0] data_read,
 );
 
 reg [31:0] ram [0:255]; // Roughly 1 KB
