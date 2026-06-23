@@ -1,13 +1,16 @@
 module register (
     input wire write_enable,
     input wire clock,
-    input wire[4:0] add_1,
-    input wire[4:0] add_2,
-    input wire[4:0] dest_add,
+    input wire[31:0] instruction,
     input wire[31:0] data_in,
     output wire[31:0] data_1,
     output wire[31:0] data_2,
 );
+
+wire[4:0] add_1 = instruction[19:15];
+wire[4:0] add_2 = instruction[24:20];
+wire[4:0] dest_add = instruction[11:7];
+
 
 reg [31:0] registers [0:31]; // Create register array
 integer i;
