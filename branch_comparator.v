@@ -1,10 +1,12 @@
 module branch_comparator (
     input wire[31:0] data_1,
     input wire[31:0] data_2,
-    input wire[2:0] funct3,
+    input wire[31:0] instruction,
     input wire branch_control,
     output reg branch_decision
 );
+
+wire[2:0] funct3 = instruction[14:12];
 
 always @(*) begin
     if (branch_control) begin
