@@ -3,6 +3,6 @@ module pc_adder (
     output wire[31:0] add_out
 );
 
-    assign add_out = add_in + 32'b4;
+    assign add_out = add_in + 32'd4;
 
 endmodule

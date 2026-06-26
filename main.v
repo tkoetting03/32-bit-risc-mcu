@@ -66,7 +66,6 @@ always @(*) begin
             register_write = 1'b0;
         end 
         
-        default: 
     endcase
 end
 

@@ -1,8 +1,8 @@
 module program_counter (
     input wire clock,
     input wire reset,
-    input wire[31:0] add_in;
-    output reg[31:0] add_out;
+    input wire[31:0] add_in,
+    output reg[31:0] add_out
 );
 
 always @(posedge clock) begin

@@ -1,6 +1,6 @@
 module core(
     input wire clock,
-    input wire reset,
+    input wire reset
 
 );
     wire[31:0] pc;
@@ -39,11 +39,11 @@ module core(
             branch_decision = 1'b0;
     end
 
-assign pc_mux (memory_register) ? memory_read : alu_output;
+assign pc_mux = (memory_register) ? memory_read : alu_output;
 
-assign alu_input_mux (alu_source) ? immediate : register_data_2;
+assign alu_input_mux = (alu_source) ? immediate : register_data_2;
 
-assign register_mux (memory_register) ? data_memory_read : alu_output;
+assign register_mux = (memory_register) ? data_memory_read : alu_output;
 
 assign pc_branch = pc + immediate;
 

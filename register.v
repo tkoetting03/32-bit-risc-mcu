@@ -4,7 +4,7 @@ module register (
     input wire[31:0] instruction,
     input wire[31:0] data_in,
     output wire[31:0] data_1,
-    output wire[31:0] data_2,
+    output wire[31:0] data_2
 );
 
 wire[4:0] add_1 = instruction[19:15];
