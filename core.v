@@ -1,6 +1,7 @@
 module core(
     input wire clock,
-    input wire reset
+    input wire reset,
+    output wire [31:0] output_core
 );
     wire[31:0] pc;
     wire[31:0] pc_mux;
