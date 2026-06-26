@@ -85,7 +85,7 @@ alu_control alu_cont (
 );
 
 alu alu (
-    .in_1(register_data_1),
+    .in_1(rs1),
     .in_2(alu_input_mux),
     .control(alu_control),
     .out(alu_output)

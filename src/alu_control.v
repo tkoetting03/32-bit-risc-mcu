@@ -4,7 +4,7 @@ module alu_control (
     output reg[3:0] alu_control_out // ALU Control 
 );
 
-wire funct3[2:0] = instruction[14:12];
+wire[2:0] funct3 = instruction[14:12];
 wire funct7_30b = instruction[30];
 
 always @(*) begin
@@ -22,9 +22,9 @@ always @(*) begin
                 3'b010: alu_control_out = 4'b0011; // SLT
                 3'b011: alu_control_out = 4'b0100; // SLTU
                 3'b100: alu_control_out = 4'b0101; // XOR
-                3'b101: alu_control_out = 4'b0110; // OR
-                3'b110: alu_control_out = 4'b0110; // AND
-                3'b111: alu_control_out = (funct7_30b) ? 4'b1000 : 4'b1001; 
+                3'b110: alu_control_out = 4'b0110; // OR
+                3'b111: alu_control_out = 4'b0111; // AND
+                3'b101: alu_control_out = (funct7_30b) ? 4'b1000 : 4'b1001; 
                 default: alu_control_out = 4'b0000;
             endcase
         end
@@ -35,12 +35,12 @@ always @(*) begin
                 3'b010: alu_control_out = 4'b0011; // SLTI
                 3'b011: alu_control_out = 4'b0100; // SLTIU
                 3'b100: alu_control_out = 4'b0101; // XORI
-                3'b101: alu_control_out = 4'b0110; // ORI
-                3'b110: alu_control_out = 4'b0110; // ANDI
-                3'b111: begin
-                    case (instruction[19])
-                        3'b1: alu_control_out = 4'b1001; // SRAI
-                        3'b0: alu_control_out = 4'b1000; // SRLI
+                3'b110: alu_control_out = 4'b0110; // ORI
+                3'b111: alu_control_out = 4'b0111; // ANDI
+                3'b101: begin
+                    case (instruction[30])
+                        1'b1: alu_control_out = 4'b1001; // SRAI
+                        1'b0: alu_control_out = 4'b1000; // SRLI
                     endcase
                 end  
                 default: alu_control_out = 4'b0000;
