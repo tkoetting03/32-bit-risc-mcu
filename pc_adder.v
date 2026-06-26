@@ -1,4 +1,4 @@
-module pc (
+module pc_adder (
     input wire[31:0] add_in,
     output wire[31:0] add_out
 );

@@ -1,4 +1,4 @@
-module pc_reg (
+module program_counter (
     input wire clock,
     input wire reset,
     input wire[31:0] add_in;
