@@ -1,9 +1,11 @@
 module alu_control (
-    input wire [1:0] alu_operation, // Operation type Identifier
-    input wire [2:0] funct3, // Opcode
-    input wire       funct7_30b, // Bit 30 in funct7
-    output reg [3:0] alu_control_out // ALU Control 
+    input wire[1:0] alu_operation, // Operation type Identifier
+    input wire[31:0] instruction,
+    output reg[3:0] alu_control_out // ALU Control 
 );
+
+wire funct3[2:0] = instruction[14:12];
+wire funct7_30b = instruction[30];
 
 always @(*) begin
     case (alu_operation)

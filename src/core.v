@@ -17,8 +17,8 @@ module core(
     wire register_write;
     wire[1:0] alu_operation;
     wire[3:0] alu_control;
-    wire[31:0] register_data_1;
-    wire[31:0] register_data_2;
+    wire[31:0] rs1;
+    wire[31:0] rs2;
     wire[31:0] register_mux;
     wire[31:0] immediate;
     wire[31:0] alu_input_mux;
@@ -42,7 +42,7 @@ end
 
 assign pc_mux = (branch_decision) ? pc_branch : pc_next;
 
-assign alu_input_mux = (alu_source) ? immediate : register_data_2;
+assign alu_input_mux = (alu_source) ? immediate : rs2;
 
 assign register_mux = (memory_register) ? data_memory_read : alu_output;
 
@@ -51,8 +51,8 @@ assign pc_branch = pc + immediate;
 pc_register pc_reg (
     .clock(clock),
     .reset(reset),
-    .add_in(pc_mux),
-    .add_out(pc)
+    .pc_in(pc_mux),
+    .pc_out(pc)
 );
 
 pc_adder pc_adder (
@@ -61,7 +61,7 @@ pc_adder pc_adder (
 );
 
 i_memory i_memory (
-    .pc_add(pc),
+    .pc_in(pc),
     .instruction(instruction)
 );
 
@@ -70,8 +70,8 @@ register register (
     .clock(clock),
     .instruction(instruction),
     .data_in(register_mux),
-    .data_1(register_data_1),
-    .data_2(register_data_2)
+    .data_1(rs1),
+    .data_2(rs2)
 );
 
 immediate immediate_module (
@@ -92,8 +92,7 @@ main main (
 
 alu_control alu_cont (
     .alu_operation(alu_operation),
-    .funct3(instruction[14:12]),
-    .funct7_30b(instruction[30]),
+    .instruction(instruction),
     .alu_control_out(alu_control)
 );
 
@@ -109,13 +108,13 @@ d_memory d_memory (
     .memory_write(memory_write),
     .memory_read(memory_read),
     .address(alu_output),
-    .data_write(register_data_2),
+    .data_write(rs2),
     .data_read(data_memory_read)
 );
 
 branch_comparator branch_comparator (
-    .data_1(register_data_1),
-    .data_2(register_data_2),
+    .data_1(rs1),
+    .data_2(rs2),
     .instruction(instruction),
     .branch_control(branch),
     .branch_decision(branch_decision)

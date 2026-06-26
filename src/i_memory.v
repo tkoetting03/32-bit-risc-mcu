@@ -1,5 +1,5 @@
 module i_memory (
-    input wire[31:0] pc_add,
+    input wire[31:0] pc_in,
     output wire[31:0] instruction
 );
 
@@ -13,7 +13,7 @@ initial begin
     end
 end
 
-assign instruction = rom[pc_add[31:2]];
+assign instruction = rom[pc_in[31:2]];
 
 endmodule
 
