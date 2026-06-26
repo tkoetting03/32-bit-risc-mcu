@@ -29,4 +29,4 @@ Parsing Verilog input from `alu.v' to AST representation.
 Storing AST representation for module `$abstract\alu'.
 Successfully finished Verilog frontend.
 [?2004h
-yosys> [?2004l[?2004h
+yosys> yosys> show -format svg -prefix alu_diagram
