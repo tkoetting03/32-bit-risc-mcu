@@ -38,6 +38,7 @@ module core(
         end else begin
             branch_decision = 1'b0;
     end
+end
 
 assign pc_mux = (branch_decision) ? pc_branch : pc_next;
 
