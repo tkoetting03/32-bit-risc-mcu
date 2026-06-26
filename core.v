@@ -1,7 +1,6 @@
 module core(
     input wire clock,
     input wire reset
-
 );
     wire[31:0] pc;
     wire[31:0] pc_mux;
@@ -74,7 +73,7 @@ register register (
     .data_2(register_data_2)
 );
 
-immediate immediate (
+immediate immediate_module (
     .instruction(instruction),
     .immediate_out(immediate)
 );
