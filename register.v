@@ -20,8 +20,8 @@ initial begin // Fill registers
     end
 end
 
-assign data_1 = (data_1 == 5'b00000) ? 32'b0 : registers[add_1]; // Check for x0 read
-assign data_2 = (data_2 == 5'b00000) ? 32'b0 : registers[add_2]; // Check for x0 read
+assign data_1 = (add_1 == 5'b00000) ? 32'b0 : registers[add_1]; // Check for x0 read
+assign data_2 = (add_2 == 5'b00000) ? 32'b0 : registers[add_2]; // Check for x0 read
 
 always @(posedge clock) begin
     if (write_enable && (dest_add != 5'b00000)) begin
