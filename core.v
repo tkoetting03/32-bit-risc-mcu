@@ -47,7 +47,7 @@ assign register_mux = (memory_register) ? data_memory_read : alu_output;
 
 assign pc_branch = pc + immediate;
 
-pc_reg program_counter (
+pc_reg pc_register (
     .clock(clock),
     .reset(reset),
     .add_in(pc_mux),
