@@ -39,7 +39,7 @@ module core(
             branch_decision = 1'b0;
     end
 
-assign pc_mux = (memory_register) ? memory_read : alu_output;
+assign pc_mux = (branch_decision) ? pc_branch : pc_next;
 
 assign alu_input_mux = (alu_source) ? immediate : register_data_2;
 
@@ -50,7 +50,7 @@ assign pc_branch = pc + immediate;
 pc_reg program_counter (
     .clock(clock),
     .reset(reset),
-    .add_in(pc_next),
+    .add_in(pc_mux),
     .add_out(pc)
 );
 
