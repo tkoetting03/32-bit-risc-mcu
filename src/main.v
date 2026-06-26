@@ -24,7 +24,7 @@ always @(*) begin
             branch = 1'b0;
             memory_read = 1'b0;
             memory_register = 1'b0;
-            alu_operation = 2'b10;
+            alu_operation = 2'b11;
             memory_write = 1'b0;
             alu_source = 1'b1;
             register_write = 1'b1;
@@ -38,7 +38,7 @@ always @(*) begin
             alu_source = 1'b1;
             register_write = 1'b1;
         end 
-        7'b0110011: begin // sw
+        7'b0100011: begin // sw
             branch = 1'b0;
             memory_read = 1'b0;
             memory_register = 1'b0;
@@ -47,7 +47,7 @@ always @(*) begin
             alu_source = 1'b1;
             register_write = 1'b0;
         end 
-        7'b0110011: begin // Branching
+        7'b1100011: begin // Branching
             branch = 1'b1;
             memory_read = 1'b0;
             memory_register = 1'b0;

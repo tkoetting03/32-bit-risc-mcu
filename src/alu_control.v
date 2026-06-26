@@ -28,6 +28,24 @@ always @(*) begin
                 default: alu_control_out = 4'b0000;
             endcase
         end
+        2'b11: begin
+            case (funct3)
+                3'b000: alu_control_out = 4'b0000; // ADDI
+                3'b001: alu_control_out = 4'b0010; // SLLI
+                3'b010: alu_control_out = 4'b0011; // SLTI
+                3'b011: alu_control_out = 4'b0100; // SLTIU
+                3'b100: alu_control_out = 4'b0101; // XORI
+                3'b101: alu_control_out = 4'b0110; // ORI
+                3'b110: alu_control_out = 4'b0110; // ANDI
+                3'b111: begin
+                    case (instruction[19])
+                        3'b1: alu_control_out = 4'b1001; // SRAI
+                        3'b0: alu_control_out = 4'b1000; // SRLI
+                    endcase
+                end  
+                default: alu_control_out = 4'b0000;
+            endcase
+        end
         default: begin
             alu_control_out = 4'b0000;
         end

@@ -26,19 +26,7 @@ module core(
     wire[31:0] data_memory_read;
 
     wire alu_zero = (alu_output == 32'b0);
-    reg branch_decision;
-    
-    always @(*) begin
-        if (branch) begin
-            case (instruction[14:12])
-                3'b000: branch_decision = alu_zero;
-                3'b001: branch_decision = !alu_zero;
-                default: branch_decision = 1'b0;
-            endcase
-        end else begin
-            branch_decision = 1'b0;
-    end
-end
+    wire branch_decision;
 
 assign pc_mux = (branch_decision) ? pc_branch : pc_next;
 
