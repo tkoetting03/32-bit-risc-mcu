@@ -47,7 +47,7 @@ assign register_mux = (memory_register) ? data_memory_read : alu_output;
 
 assign pc_branch = pc + immediate;
 
-pc_reg pc_register (
+pc_register pc_reg (
     .clock(clock),
     .reset(reset),
     .add_in(pc_mux),
@@ -89,7 +89,7 @@ main main (
     .register_write(register_write)
 );
 
-alu_control alu_control (
+alu_control alu_cont (
     .alu_operation(alu_operation),
     .funct3(instruction[14:12]),
     .funct7_30b(instruction[30]),
