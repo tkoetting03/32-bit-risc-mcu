@@ -18,6 +18,7 @@ end
 
 initial begin
     begin
+        uut.i_memory.rom[0] = 32'b000000001010_00000_000_00001_0010011;
         reset = 1;
         #20;
         reset = 0;
