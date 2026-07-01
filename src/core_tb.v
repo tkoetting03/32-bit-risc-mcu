@@ -18,6 +18,7 @@ end
 
 initial begin
     begin
+        $monitor("%0t | %h | %d", $time, uut.instruction, uut.alu_output);
         uut.i_memory.rom[0] = 32'b000000001010_00000_000_00001_0010011;
         reset = 1;
         #20;
