@@ -28,6 +28,8 @@ module core(
     wire alu_zero = (alu_output == 32'b0);
     wire branch_decision;
 
+assign output_core = alu_output;    
+
 assign pc_mux = (branch_decision) ? pc_branch : pc_next;
 
 assign alu_input_mux = (alu_source) ? immediate : rs2;
