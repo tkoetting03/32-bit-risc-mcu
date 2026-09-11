@@ -29,6 +29,20 @@ module register_tv (
     endfunction
 
 
-
+    task verify_outputs;
+        input [31:0] expected_data_out1;
+        input [31:0] expected_data_out2;
+        input [8*40:1] string;
+        begin
+            #1;
+            if (data_out1 !== expected_data_out1 || data_out2 !== expected_data_out2) begin
+                $display("[Mogged :()] | %0s | %0t | data_out1=0x%32b (s/b 0x%32b) | data_out2=0x%32b (s/b 0x%32b)", 
+                string, $time, data_out1, expected_data_out1, data_out2, expected_data_out2);
+            end else begin
+                $display("[Looks Maxxer :)] | %0s | %0t | data_out1=0x%32b | data_out2=0x%32b", 
+                string, $time, data_out1, data_out2);
+            end
+        end
+    endtask
     
 endmodule

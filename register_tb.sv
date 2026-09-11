@@ -29,6 +29,14 @@ typedef struct packed {
     logic [6:0] opcode;
 } instruction_concatenator;
 
+function automative logic [31:0] instruction_encoder(logic[4:0] rs1, logic[4:0] rs2, logic[4:0] rd);
+    instruction_concatenator instruction;
+    instruction = '0;
+    instruction.rs2 = rs2;
+    instruction.rs1 = rs1;
+    instruction.rd = rd;
+    return instruction;
+endfunction
 
 
 endmodule
