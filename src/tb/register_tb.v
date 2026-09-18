@@ -36,8 +36,9 @@ module register_tb;
         begin
             #1;
             if (data_out1 !== expected_data_out1 || data_out2 !== expected_data_out2) begin
-                $display("[Mogged :()] | %0s | %0t | data_out1=0x%32b (s/b 0x%32b) | data_out2=0x%32b (s/b 0x%32b)", 
+                $display("[Mogged :(] | %0s | %0t | data_out1=0x%32b (s/b 0x%32b) | data_out2=0x%32b (s/b 0x%32b)", 
                 string, $time, data_out1, expected_data_out1, data_out2, expected_data_out2);
+                $fatal(1);
             end else begin
                 $display("[Looks Maxxer :)] | %0s | %0t | data_out1=0x%32b | data_out2=0x%32b", 
                 string, $time, data_out1, data_out2);
@@ -53,41 +54,41 @@ module register_tb;
 
         #10;
 
-        instruction = instruction_concatenator(5'b0, 5'b1, 5'b0);
+        instruction = instruction_concatenator(5'b0, 5'b0, 5'b0);
         verify_outputs(32'b0, 32'b0, "Peter Griffin Family Guy");
 
         @(posedge clock);
         write_enable = 1;
-        data_in = 32'h9;
-        instruction = instruction_concatenator(5'b1, 5'b0, 5'b1);
+        data_in = 32'd9;
+        instruction = instruction_concatenator(5'b0, 5'b0, 5'b1);
 
         @(posedge clock);
         write_enable = 0;
         instruction = instruction_concatenator(5'b1, 5'b1, 5'b0);
         
-        verify_outputs(32'h9, 32'h9, "Did it put in x1?");
+        verify_outputs(32'd9, 32'd9, "Did it put in x1?");
 
         @(posedge clock);
         write_enable = 1;
-        data_in = 32'h11;
+        data_in = 32'd11;
         instruction = instruction_concatenator(5'b0, 5'b0, 5'b0);
 
         @(posedge clock);
         write_enable = 0;
         instruction = instruction_concatenator(5'b0, 5'b0, 5'b0);
-        verify_outputs(32'h11, 32'h11, "Did it put it in x0?");
+        verify_outputs(32'd11, 32'd11, "Did it put it in x0?");
 
 
         @(posedge clock);
         write_enable = 0;
-        data_in = 32'h13;
+        data_in = 32'd13;
         instruction = instruction_concatenator(5'b0, 5'b0, 5'b1);
         
         @(posedge clock);
         write_enable = 0;
         instruction = instruction_concatenator(5'b1, 5'b1, 5'b0);
         
-        verify_outputs(32'h13, 32'h13, "I said NO WRITING");
+        verify_outputs(32'd13, 32'd13, "I said NO WRITING");
 
         $finish;
         
