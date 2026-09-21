@@ -35,36 +35,79 @@ task automatic check_read(input [31:0] expected_data, input string test_value);
 endtask
 
 initial begin
-    memory_write <= 1'b0;
-    memory_read <= 1'b0;
-    address <= 32'b0;
-    data_write <= 32'b0;
+        memory_write <= 1'b0;
+        memory_read  <= 1'b0;
+        address      <= 32'b0;
+        data_write   <= 32'b0;
 
-    repeat (2) @(posedge clock);
+        repeat (2) @(posedge clock);
 
-    @(posedge clock);
-    memory_write <= 1'b1;
-    memory_read <= 1'b0;
-    address <= 32'b0;
-    data_write <= 32'b1;
-    check_read(32'b0, "Write data 1")
+        @(posedge clock);
+        memory_read <= 1'b1;
+        address     <= 32'd0;
+        check_read(32'd0, "Read 0");
 
-    @(posedge clock);
-    memory_write <= 1'b0;
-    memory_read <= 1'b1;
-    address <= 32'b0;
-    check_read(32'b0, "Read data 1")
+        @(posedge clock);
+        memory_read <= 1'b0;
+        check_read(32'b0, "Nothing being read");
 
-    @(posedge clock);
-    memory_write <= 1'b1;
-    memory_read <= 1'b0;
-    address <= 32'd4;
-    data_write <= 32'b10;
-    check_read(32'd4, "Write data 2")
+        @(posedge clock);
+        memory_write <= 1'b1;
+        memory_read  <= 1'b0;
+        address      <= 32'd4;
+        data_write   <= 32'd1;
 
+        @(posedge clock);
+        memory_write <= 1'b0;
+        memory_read  <= 1'b1;
+        address      <= 32'd4;
+        check_read(32'd1, "Read word from 0x4");
 
+        @(posedge clock);
+        address <= 32'd5;
+        check_read(32'd1, "Wrong address offset");
 
+        @(posedge clock);
+        address <= 32'd6;
+        check_read(32'd1, "Wrong address offset");
 
+        @(posedge clock);
+        address <= 32'd7;
+        check_read(32'd1, "Wrong address offset");
+
+        @(posedge clock);
+        memory_write <= 1'b0;
+        memory_read  <= 1'b0;
+        address      <= 32'd4;
+        data_write   <= 32'd2;
+
+        @(posedge clock);
+        memory_read <= 1'b1;
+        check_read(32'd1, "Should still be 1");
+
+        @(posedge clock);
+        memory_write <= 1'b1;
+        memory_read  <= 1'b0;
+        address      <= 32'd30;
+        data_write   <= 32'd3;
+
+        @(posedge clock);
+        memory_write <= 1'b0;
+        memory_read  <= 1'b1;
+        check_read(32'd3, "Read word from 0x30");
+
+        @(posedge clock);
+        memory_write <= 1'b1;
+        memory_read  <= 1'b0;
+        address      <= 32'd31;
+        data_write   <= 32'd4;
+
+        @(posedge clock);
+        memory_write <= 1'b0;
+        memory_read  <= 1'b1;
+        check_read(32'd4, "Read word from 0x31)");
+
+        $finish;
 end
 
 endmodule
