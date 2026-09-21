@@ -38,6 +38,44 @@ initial begin
     pc_in <= 32'd11;
 
     repeat (2) @(posedge_clock);
+    check_pc(32'b0, "Should have reset");
+
+    @(posedge clock);
+    reset <= 1'b0;
+    pc_in <= 32'd4;
+    check_pc(32'd4, "PC is now 4");
+
+    @(posedge clock);
+    reset <= 1'b0;
+    pc_in <= 32'd8;
+    check_pc(32'd5, "PC is now 8");
+
+    @(posedge clock);
+    reset <= 1'b0;
+    pc_in <= 32'd12;
+    check_pc(32'd5, "PC is now 12");
+
+    @(posedge clock);
+    reset <= 1'b0;
+    pc_in <= 32'd100;
+    check_pc(32'd100, "PC is now 100");
+
+    @(posedge clock);
+    reset <= 1'b0;
+    pc_in <= 32'hFFFFFFFF;
+    check_pc(32'hFFFFFFFF, "PC is now max (hypothetically)");
+
+    @(posedge clock);
+    reset <= 1'b1;
+    pc_in <= 32'd16;
+    check_pc(32'd16, "PC is now 16");
+
+    @(posedge clock);
+    reset <= 1'b0;
+    pc_in <= 32'd20;
+    check_pc(32'd16, "PC is now 20");
+
+    $finish
 end
 
 endmodule
