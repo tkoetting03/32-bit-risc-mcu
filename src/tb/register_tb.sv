@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module register_tv (
+module register_tb (
     logic clock;
     logic write_enable;
     logic[31:0] data_in;
