@@ -7,7 +7,7 @@ module pc_reg_tb (
     logic[31:0] pc_out;
 );
 
-pc_reg_tb uut (
+pc_reg uut (
     .clock (clock),
     .reset (reset),
     .pc_in (pc_in),
