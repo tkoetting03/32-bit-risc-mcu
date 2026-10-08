@@ -13,8 +13,55 @@ module sram_controller(
     output reg output_enable,
     output reg write_enable,
 
-    inout wire[17:0] sram_dp
+    inout wire[31:0] sram_dp
 
 );
+
+reg[17:0] reg_address;
+reg[31:0] reg_data_in;
+reg reg_enable;
+
+reg[3:0] state;
+reg[3:0] next_state;
+
+localparam [3:0] = idle = 4'b000, wait_read = 4'b0001, write = 4'b0010, hold_write = 4'b0011;
+
+assign data_dp = reg_enable ? reg_data_in : 32'b0;
+
+always @(posedge clk || negedge reset) begin
+    if (!reset) begin
+        state <= idle;
+    end else begin
+        state <= next_state;
+    end
+end
+
+always @(*) begin
+    next_state = state;
+
+    case (state)
+        idle: if (memory_req) begin
+            if (write_enable) begin
+                next_state <= write;
+            end else begin
+                next_state <= wait_read;
+            end
+        end
+
+        wait_read;
+
+        write_pulse:
+
+        write_hold:
+
+
+        default: next_state <= idle;
+    endcase
+end
+
+
+always @(posedge clk || negedge reset) begin
+    
+end
 
 endmodule
