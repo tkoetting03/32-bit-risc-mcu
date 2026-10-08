@@ -1,26 +1,27 @@
 
 
 module uart_rx #(
-    parameter integer baud_clk_bit = 868;
+    parameter integer baud_clk_bit = 868
 )(
     input wire clk,
-    input wire start,
     input wire reset,
-    input wire received,
+    input wire recieved,
     output reg[7:0] data_out,
     output reg finished
 );
 
-localparam [2:0] idle = 3'b000, start = 3'b001, finish, 3'b010, data, 3'b100;
+localparam [2:0] idle = 3'b000, start = 3'b001, data = 3'b010, stop = 3'b100;
 
 reg[2:0] state;
-reg[16:0] count;
+reg[15:0] count;
 reg[7:0] buffer;
 reg[2:0] index;
+reg ext_sync;
+reg in_sync;
 
-always @(posedge clk || negedge reset) begin
-    reg ext_sync, 
-    reg in_sync;
+
+
+always @(posedge clk or negedge reset) begin
     if (!reset) begin
         ext_sync <= 1'b1;
         in_sync <= 1'b1;
@@ -29,7 +30,7 @@ always @(posedge clk || negedge reset) begin
         in_sync <= ext_sync;
     end
 end
-always @(posedge clk || negedge reset) begin
+always @(posedge clk or negedge reset) begin
 if (!reset) begin
     state <= idle;
     finished <= 1'b0;
@@ -48,7 +49,7 @@ end else begin
         end
 
         start: begin
-            if (count == baud_clk_bit / 2) begin
+            if (count == (baud_clk_bit - 1) / 2) begin
                 if (in_sync == 1'b0) begin
                     count <= 16'd0;
                     index <= 3'b000;
@@ -62,7 +63,7 @@ end else begin
         end
 
         data: begin
-            if (count < baud_clk_bit) begin
+            if (count < baud_clk_bit - 1) begin
                 count <= count + 1;
             end else begin
                 count <= 16'd0;
@@ -70,21 +71,24 @@ end else begin
                 if (index < 3'b111) begin
                     index <= index + 1;
                 end else begin
-                    state <= finish
+                    state <= stop
                 end
             end
         end
 
         stop: begin
-            if (count < baud_clk_bit) begin
+            if (count < baud_clk_bit - 1) begin
                 count <= count + 1'b1;
             end else begin
-                data_out <= buffer;
-                finished <= 1'b1;
-                count <= 16'd0;
+\               count <= 16'd0;
                 state <= idle;
+                if(in_sync) begin
+                    data_out <= buffer;
+                    finished <= 1'b1;
+                end
             end
         end
+        default: state <= idle;
     endcase
 end
 end

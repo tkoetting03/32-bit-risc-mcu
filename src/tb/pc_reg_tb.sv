@@ -27,9 +27,10 @@ assert_pc_transfer: assert property (@(posedge clock) disable iff (reset)
 task automatic check_pc(input [31:0] expected_pc, input string test_value);
     @(negedge clock);
     assert (pc_out == exp_pc) begin
-        $display(It works!)
+        $display(It works!);
     end else begin
-        $error("Mogged :(, pc_out is %d, expected_pc is %d", pc_out, expected_pc)
+        $error("Mogged :(, pc_out is %d, expected_pc is %d", pc_out, expected_pc);
+        $fatal(1);
     end
 endtask
 
