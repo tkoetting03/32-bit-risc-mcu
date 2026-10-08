@@ -7,6 +7,7 @@ module gpio (
     input wire write_enable,
     input wire select,
     output reg[31:0] data_out,
+    output reg interrupt_signal,
 
     inout wire[31:0] gpio_io
 
@@ -56,8 +57,31 @@ always @(posedge clk || negedge reset) begin
     end
 end
 
+always @(posedge clk || negedge reset) begin
+    if (!reset) begin
+        data_out <= 32'b0;
+    end else if (select && write_enable) begin
+        case (offset)
+            ro_data_in: data_out <= in_sync;
+            rw_data_out: data_out <= reg_data_out;
+            rw_direction: data_out <= reg_direction;
+            rw_interrupt: data_out <= reg_interrupt;
+            dafault: data_out <= 32'b0; 
+        endcase
+    end else begin
+        data_out <= 32'b0;
+    end
+end
 
+wire[31:0] rising_edge = (~sync_history) & in_sync;
 
+always @(posedge clk || or negedge reset) begin
+    if (!reset) begin
+        interrupt_signal <= 1'b0;
+    end else begin
+        interrupt_signal <=| rising_edge & reg_interrupt & ~reg_direction;
+    end
+end
 
 
 endmodule
