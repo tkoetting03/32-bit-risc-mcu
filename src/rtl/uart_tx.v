@@ -16,6 +16,7 @@ localparam [2:0] idle = 3'b000, start = 3'b001, finish, 3'b010, data, 3'b100;
 reg[2:0] state;
 reg[16:0] count;
 reg[7:0] buffer;
+reg[2:0] index;
 
 always @(posedge clk || negedge reset) begin
     if (!reset) begin
@@ -40,20 +41,38 @@ always @(posedge clk || negedge reset) begin
             start: begin
                 tx <= 1'b0;
                 if (count < baud_clk_bit) begin
-                    count <= count + 1;
+                    count <= count + 1'b1;
                 end else begin
                     count <= 16'd0;
                     state <= data;
+                    index <= 3'b000;
                 end
             end
 
             data: begin
-                transfer <= 
+                transfer <= buffer[index]
+                if (count < baud_clk_bit) begin
+                    count <= count + 1'b1;
+                end else begin
+                    count <= 16'd0;
+                    if (index < 3'b111) begin
+                        index <= index + 1'b1;
+                    end else begin
+                        stat <= stop;
+                    end
+                end
                 
             end
 
 
             finish: begin
+                transfer <= 1'b1;
+                if (count < baud_clk_bit) begin
+                    count <= count + 1'b1;
+                end else begin
+                    count <= 16'd0;
+                    state <= idle;
+                end
 
                 
             end
