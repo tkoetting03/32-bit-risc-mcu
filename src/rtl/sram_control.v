@@ -28,8 +28,8 @@ localparam [3:0] idle = 4'b000, wait_read = 4'b0001, write = 4'b0010, hold_write
 
 assign sram_dp = reg_enable ? reg_data_in : 32'bz;
 
-always @(posedge clk or negedge reset) begin
-    if (!reset) begin
+always @(posedge clk) begin
+    if (reset) begin
         state <= idle;
     end else begin
         state <= next_state;
@@ -67,8 +67,8 @@ always @(*) begin
 end
 
 
-always @(posedge clk or negedge reset) begin
-    if (!reset) begin
+always @(posedge clk) begin
+    if (reset) begin
         sram_addr <= 18'b0;
         reg_data_in <= 32'b0;
         data_out <= 32'b0;

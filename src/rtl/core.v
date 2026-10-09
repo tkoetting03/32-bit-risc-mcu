@@ -58,6 +58,7 @@ i_memory i_memory (
 register register (
     .write_enable(register_write),
     .clock(clock),
+    .reset(reset),
     .instruction(instruction),
     .data_in(register_mux),
     .data_1(rs1),

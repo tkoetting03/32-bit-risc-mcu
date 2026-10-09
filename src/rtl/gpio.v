@@ -29,8 +29,8 @@ generate
     end
 endgenerate
 
-always @(posedge clk or negedge reset) begin
-    if (!reset) begin
+always @(posedge clk) begin
+    if (reset) begin
         in_sync <= 32'b0;
         ext_sync <= 32'b0;
         sync_history <= 32'b0;
@@ -43,8 +43,8 @@ end
 
 localparam [3:0] ro_data_in = 4'b0000, rw_data_out = 4'b0100, rw_direction = 4'b1000, rw_interrupt = 4'b1100;
 
-always @(posedge clk or negedge reset) begin
-    if (!reset) begin
+always @(posedge clk) begin
+    if (reset) begin
         reg_data_out <= 32'b0;
         reg_direction <= 32'b0;
         reg_interrupt <= 32'b0;
@@ -58,8 +58,8 @@ always @(posedge clk or negedge reset) begin
     end
 end
 
-always @(posedge clk or negedge reset) begin
-    if (!reset) begin
+always @(posedge clk) begin
+    if (reset) begin
         data_out <= 32'b0;
     end else if (select && !write_enable) begin
         case (offset)
@@ -76,8 +76,8 @@ end
 
 wire[31:0] rising_edge = (~sync_history) & in_sync;
 
-always @(posedge clk or negedge reset) begin
-    if (!reset) begin
+always @(posedge clk) begin
+    if (reset) begin
         interrupt_signal <= 1'b0;
     end else begin
         interrupt_signal <=| (rising_edge & reg_interrupt & ~reg_direction);

@@ -1,6 +1,7 @@
 module register (
     input wire write_enable,
     input wire clock,
+    input wire reset,
     input wire[31:0] instruction,
     input wire[31:0] data_in,
     output wire[31:0] data_1,
@@ -24,7 +25,11 @@ assign data_1 = (add_1 == 5'b00000) ? 32'b0 : registers[add_1]; // Check for x0 
 assign data_2 = (add_2 == 5'b00000) ? 32'b0 : registers[add_2]; // Check for x0 read
 
 always @(posedge clock) begin
-    if (write_enable && (dest_add != 5'b00000)) begin
+    if (reset) begin
+        for (i = 0, i < 32, i = i + 1) begin
+            registers[i] <= 32'b0;
+        end
+    end else if (write_enable && (dest_add != 5'b00000)) begin
         registers[dest_add] <= data_in; // Write Data
     end
 end

@@ -21,8 +21,8 @@ reg in_sync;
 
 
 
-always @(posedge clk or negedge reset) begin
-    if (!reset) begin
+always @(posedge clk) begin
+    if (reset) begin
         ext_sync <= 1'b1;
         in_sync <= 1'b1;
     end else begin
@@ -30,8 +30,8 @@ always @(posedge clk or negedge reset) begin
         in_sync <= ext_sync;
     end
 end
-always @(posedge clk or negedge reset) begin
-if (!reset) begin
+always @(posedge clk) begin
+if (reset) begin
     state <= idle;
     finished <= 1'b0;
     count <= 16'd0;
