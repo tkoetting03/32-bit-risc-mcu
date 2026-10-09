@@ -24,7 +24,13 @@ always @(*) begin
                 3'b100: alu_control_out = 4'b0101; // XOR
                 3'b110: alu_control_out = 4'b0110; // OR
                 3'b111: alu_control_out = 4'b0111; // AND
-                3'b101: alu_control_out = (funct7_30b) ? 4'b1000 : 4'b1001; 
+                3'b101: begin
+                    case (funct7_30b)
+                        1'b1: alu_control_out = 4'b1001;
+                        1'b0: alu_control_out = 4'b1000;
+                    endcase 
+                end
+                alu_control_out = (funct7_30b) ? 4'b1000 : 4'b1001; 
                 default: alu_control_out = 4'b0000;
             endcase
         end

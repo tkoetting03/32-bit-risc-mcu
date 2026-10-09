@@ -24,7 +24,7 @@ reg reg_enable;
 reg[3:0] state;
 reg[3:0] next_state;
 
-localparam [3:0] = idle = 4'b000, wait_read = 4'b0001, write = 4'b0010, hold_write = 4'b0011;
+localparam [3:0] idle = 4'b000, wait_read = 4'b0001, write = 4'b0010, hold_write = 4'b0011;
 
 assign sram_dp = reg_enable ? reg_data_in : 32'bz;
 
@@ -58,11 +58,11 @@ always @(*) begin
             next_state = hold_write;
         end
 
-        write_hold: begin
+        hold_write: begin
             next_state = idle;
         end
 
-        default: next_state <= idle;
+        default: next_state = idle;
     endcase
 end
 
@@ -89,7 +89,7 @@ always @(posedge clk or negedge reset) begin
 
             if (memory_req) begin
                 sram_addr <= memory_addr;
-               if (mem_write) begin
+               if (memory_write) begin
                     reg_data_in <= data_in;
                     reg_enable <= 1'b1;
                     select <= 1'b0;

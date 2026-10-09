@@ -51,8 +51,9 @@ always @(posedge clk or negedge reset) begin
     end else if (select && write_enable) begin
         case (offset)
             rw_data_out: reg_data_out <= data_in;
-            rw_direction: reg_direction <= data_out;
-            rw_interrupt: reg_interrupt <= data_out;
+            rw_direction: reg_direction <= data_in;
+            rw_interrupt: reg_interrupt <= data_in;
+            default: ;
         endcase 
     end
 end
@@ -75,7 +76,7 @@ end
 
 wire[31:0] rising_edge = (~sync_history) & in_sync;
 
-always @(posedge clk or or negedge reset) begin
+always @(posedge clk or negedge reset) begin
     if (!reset) begin
         interrupt_signal <= 1'b0;
     end else begin

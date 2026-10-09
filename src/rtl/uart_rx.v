@@ -71,7 +71,7 @@ end else begin
                 if (index < 3'b111) begin
                     index <= index + 1;
                 end else begin
-                    state <= stop
+                    state <= stop;
                 end
             end
         end
@@ -80,7 +80,7 @@ end else begin
             if (count < baud_clk_bit - 1) begin
                 count <= count + 1'b1;
             end else begin
-\               count <= 16'd0;
+                count <= 16'd0;
                 state <= idle;
                 if(in_sync) begin
                     data_out <= buffer;
