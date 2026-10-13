@@ -24,13 +24,7 @@ always @(*) begin
                 3'b100: alu_control_out = 4'b0101; // XOR
                 3'b110: alu_control_out = 4'b0110; // OR
                 3'b111: alu_control_out = 4'b0111; // AND
-                3'b101: begin
-                    case (funct7_30b)
-                        1'b1: alu_control_out = 4'b1001;
-                        1'b0: alu_control_out = 4'b1000;
-                    endcase 
-                end
-                alu_control_out = (funct7_30b) ? 4'b1000 : 4'b1001; 
+                3'b101: alu_control_out = (funct7_30b) ? 4'b1000 : 4'b1001; 
                 default: alu_control_out = 4'b0000;
             endcase
         end
@@ -43,12 +37,7 @@ always @(*) begin
                 3'b100: alu_control_out = 4'b0101; // XORI
                 3'b110: alu_control_out = 4'b0110; // ORI
                 3'b111: alu_control_out = 4'b0111; // ANDI
-                3'b101: begin
-                    case (instruction[30])
-                        1'b1: alu_control_out = 4'b1001; // SRAI
-                        1'b0: alu_control_out = 4'b1000; // SRLI
-                    endcase
-                end  
+                3'b101: alu_control_out = (instruction[30]) ? 4'b1001 : 4'b1000;
                 default: alu_control_out = 4'b0000;
             endcase
         end
