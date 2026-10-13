@@ -18,8 +18,8 @@ reg[16:0] count;
 reg[7:0] buffer;
 reg[2:0] index;
 
-always @(posedge clk or negedge reset) begin
-    if (!reset) begin
+always @(posedge clk) begin
+    if (reset) begin
         state <= idle;
         count <= 32'd0;
         buffer <= 8'd0;
@@ -37,8 +37,6 @@ always @(posedge clk or negedge reset) begin
                     buffer <= data_in;
                     state <= start;
                 end
-
-                
             end
 
             start: begin
