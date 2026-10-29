@@ -58,10 +58,8 @@ always @(posedge clk) begin
     end
 end
 
-always @(posedge clk) begin
-    if (reset) begin
-        data_out <= 32'b0;
-    end else if (select && !write_enable) begin
+always @(*) begin
+    if (select && !write_enable) begin
         case (offset)
             ro_data_in: data_out <= in_sync;
             rw_data_out: data_out <= reg_data_out;

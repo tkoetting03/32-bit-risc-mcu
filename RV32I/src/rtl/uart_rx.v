@@ -1,11 +1,9 @@
-
-
 module uart_rx #(
     parameter integer baud_clk_bit = 868
 )(
     input wire clk,
     input wire reset,
-    input wire recieved,
+    input wire received,
     output reg[7:0] data_out,
     output reg finished
 );
@@ -26,7 +24,7 @@ always @(posedge clk) begin
         ext_sync <= 1'b1;
         in_sync <= 1'b1;
     end else begin
-        ext_sync <= recieved;
+        ext_sync <= received;
         in_sync <= ext_sync;
     end
 end

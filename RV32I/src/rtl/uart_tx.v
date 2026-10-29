@@ -1,5 +1,3 @@
-
-
 module uart_tx #(
     parameter integer baud_clk_bit = 868
 )(
