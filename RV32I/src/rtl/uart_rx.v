@@ -17,8 +17,6 @@ reg[2:0] index;
 reg ext_sync;
 reg in_sync;
 
-
-
 always @(posedge clk) begin
     if (reset) begin
         ext_sync <= 1'b1;
